@@ -25,11 +25,11 @@ interface ISwitchNav {
 }
 
 const switchNavigator = createSwitchNavigator({
-  logFlow: createStackNavigator({ Signin: SigninScreen, Signup: SingupScreen }),
+  logFlow: createStackNavigator({ Signup: SingupScreen, Signin: SigninScreen }),
   mainFlow: createBottomTabNavigator({
     TrackListFlow: createStackNavigator({
-      TrackDetail: TrackDetailScreen,
       TrackList: TrackListScreen,
+      TrackDetail: TrackDetailScreen,
     }),
     TrackCreate: TrackCreateScreen,
     Account: AccountScreen,

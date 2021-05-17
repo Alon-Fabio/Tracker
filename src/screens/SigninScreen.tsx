@@ -1,19 +1,25 @@
 import React from "react";
+// Prop for type script
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Button, StyleSheet, Text, TextStyle, View } from "react-native";
 
-interface IProp {
-  navigation: StackNavigationProp<{ Signup: undefined }>;
+import { Button, StyleSheet, Text, TextStyle } from "react-native";
+
+interface INav {
+  navigation: StackNavigationProp<{ Signup: undefined; mainFlow: undefined }>;
 }
 
-const SigninScreen = ({ navigation }: IProp) => {
+const SigninScreen = ({ navigation }: INav) => {
   return (
     <>
-      <Text style={styles.fontSize}>Signin Screen</Text>
+      <Text style={styles.fontSize}>Sign In</Text>
       <Button
         title={"Go to signup"}
         onPress={() => navigation.navigate("Signup")}
-      ></Button>
+      />
+      <Button
+        title={"Go to Main"}
+        onPress={() => navigation.navigate("mainFlow")}
+      />
     </>
   );
 };

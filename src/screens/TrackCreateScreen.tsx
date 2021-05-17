@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+
+import { StyleSheet, Text, Button } from "react-native";
 
 const TrackCreateScreen = () => {
   return (
-    <View>
+    <>
       <Text style={styles.fontSize}>Track create screen</Text>
-    </View>
+    </>
   );
 };
 

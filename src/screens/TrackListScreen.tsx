@@ -1,11 +1,22 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+// Prop for type script
+import { StackNavigationProp } from "@react-navigation/stack";
 
-const TrackListScreen = () => {
+import { StyleSheet, Text, Button } from "react-native";
+
+interface INav {
+  navigation: StackNavigationProp<{ TrackDetail: undefined }>;
+}
+
+const TrackListScreen = ({ navigation }: INav) => {
   return (
-    <View>
-      <Text style={styles.fontSize}>Track List Screen Track List Screen</Text>
-    </View>
+    <>
+      <Text style={styles.fontSize}>Track List Screen</Text>
+      <Button
+        title={"Go to Track Detail"}
+        onPress={() => navigation.navigate("TrackDetail")}
+      />
+    </>
   );
 };
 
