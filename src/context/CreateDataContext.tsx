@@ -1,15 +1,25 @@
 import React, { useReducer } from "react";
 
+//TypeScript interfaces
+import { IState, IAction } from "../typeScript/interfaces";
+
 interface IBundObj {
-  [key: string]: Function;
+  [key: string]: any;
+}
+
+interface IContext {
+  state: IState;
+  [key: string]: any;
 }
 
 export default (
-  reducer: React.ReducerWithoutAction<any>,
+  reducer: React.Reducer<IState, IAction>,
   actions: IBundObj,
-  initialState: {}
+  initialState: IState
 ) => {
-  const Context = React.createContext(initialState);
+  const Context = React.createContext<IContext>({
+    state: initialState,
+  });
 
   const Provider: React.FC = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
