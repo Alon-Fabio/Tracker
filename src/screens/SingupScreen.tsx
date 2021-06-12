@@ -1,60 +1,33 @@
-import React, { useState, useContext } from "react";
-// Prop for type script
-import { StackNavigationProp } from "@react-navigation/stack";
-//Libraries
-import { Text, Input, Button } from "react-native-elements";
-//Components
-import Spacer from "../components/Spacer";
-import { Context as AuthContext } from "../context/AuthContext";
-
+import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
+// Prop for type script
+import NavLink from "../components/NavLink";
+//Type for TS
+import { NavigationStackScreenComponent } from "react-navigation-stack";
+//Components
+import { Context as AuthContext } from "../context/AuthContext";
+import AuthForm from "../components/AuthForm";
 
-interface INav {
-  navigation: StackNavigationProp<{ Signin: undefined }>;
-}
-
-const SingupScreen = ({ navigation }: INav) => {
+const SingupScreen: NavigationStackScreenComponent = (): JSX.Element => {
   const { state, signup } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   return (
     <View style={styles.container}>
-      <Spacer>
-        <Text h3>Sing Up for Tracker</Text>
-      </Spacer>
-      <Input
-        label={"Email"}
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize={"none"}
-        autoCorrect={false}
+      <AuthForm
+        authTitle={"Sign Up for Tracker"}
+        formSubmitTitle={"Sign Up!"}
+        errorMessage={state.errorMessage}
+        onFormSubmit={signup}
       />
-      <Spacer children={null} />
-      <Input
-        label={"Password"}
-        value={password}
-        onChangeText={setPassword}
-        autoCapitalize={"none"}
-        autoCorrect={false}
-        secureTextEntry
+      <NavLink
+        linkText={"Already have an account?, SignIn here!"}
+        routeName={"Signin"}
       />
-      {state.errorMessage ? (
-        <Text style={styles.errMSG}>{state.errorMessage}</Text>
-      ) : null}
-      <Spacer>
-        <Button title={"Sign Up"} onPress={() => signup({ email, password })} />
-        <Spacer />
-        <Button
-          title={"Go to signin"}
-          onPress={() => navigation.navigate("Signin")}
-        />
-      </Spacer>
     </View>
   );
 };
 SingupScreen.navigationOptions = {
-  headerShown: false,
+  header: () => false,
 };
 export default SingupScreen;
 
@@ -63,10 +36,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginBottom: 200,
-  },
-  errMSG: {
-    fontSize: 16,
-    color: "red",
-    marginHorizontal: 15,
   },
 });

@@ -4,7 +4,7 @@ import React, { useReducer } from "react";
 import { IState, IAction } from "../typeScript/interfaces";
 
 interface IBundObj {
-  [key: string]: any;
+  [key: string]: Function;
 }
 
 interface IContext {

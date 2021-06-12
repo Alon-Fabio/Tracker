@@ -4,5 +4,5 @@ export interface IState {
 }
 export interface IAction {
   type: string;
-  payload: string & boolean;
+  payload: string;
 }

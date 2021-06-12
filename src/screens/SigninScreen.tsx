@@ -1,33 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
+import { StyleSheet, View } from "react-native";
 // Prop for type script
-import { StackNavigationProp } from "@react-navigation/stack";
+import NavLink from "../components/NavLink";
+//Type for TS
+import { NavigationStackScreenComponent } from "react-navigation-stack";
+//Components
+import { Context as AuthContext } from "../context/AuthContext";
+import AuthForm from "../components/AuthForm";
 
-import { Button, StyleSheet, Text, TextStyle } from "react-native";
+const SingupScreen: NavigationStackScreenComponent = (): JSX.Element => {
+  const { state, signin } = useContext(AuthContext);
 
-interface INav {
-  navigation: StackNavigationProp<{ Signup: undefined; mainFlow: undefined }>;
-}
-
-const SigninScreen = ({ navigation }: INav) => {
   return (
-    <>
-      <Text style={styles.fontSize}>Sign In</Text>
-      <Button
-        title={"Go to signup"}
-        onPress={() => navigation.navigate("Signup")}
+    <View style={styles.container}>
+      <AuthForm
+        authTitle={"Sign In to your account"}
+        formSubmitTitle={"Sign In"}
+        errorMessage={state.errorMessage}
+        onFormSubmit={signin}
       />
-      <Button
-        title={"Go to Main"}
-        onPress={() => navigation.navigate("mainFlow")}
+      <NavLink
+        linkText={"Don't have an account?, SignUp here!"}
+        routeName={"Signup"}
       />
-    </>
+    </View>
   );
 };
+SingupScreen.navigationOptions = {
+  header: () => false,
+};
+export default SingupScreen;
 
-export default SigninScreen;
-
-const styles = StyleSheet.create<{ fontSize: TextStyle }>({
-  fontSize: {
-    fontSize: 48,
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 200,
   },
 });
