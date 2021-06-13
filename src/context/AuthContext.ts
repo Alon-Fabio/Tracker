@@ -10,23 +10,41 @@ import CreateDataContext from "./CreateDataContext";
 //TypeScript interfaces
 import { IState, IAction } from "../typeScript/interfaces";
 
-import { somethingWrong } from "../messages/errMessages";
+import {
+  somethingWrongSignUp,
+  somethingWrongSignIn,
+} from "../messages/errMessages";
 
 import fetchTracker from "../api/tracker";
 
 const authReducer = (state: IState, action: IAction): IState => {
   switch (action.type) {
-    case "add_err":
+    case "ADD_ERROR":
       return { ...state, errorMessage: action.payload };
-    case "signin":
+    case "AUTHENTICATION":
       return { token: action.payload, errorMessage: "" };
+    case "CLEAR_ERROR_MESSAGE":
+      return { ...state, errorMessage: "" };
     default:
       return state;
   }
 };
 
+const tryLocalSignIn = (dispatch: React.Dispatch<IAction>) => async () => {
+  const token = await AsyncStorage.getItem("token");
+  if (token) {
+    dispatch({ type: "AUTHENTICATION", payload: token });
+    navigate("TrackList");
+  } else {
+    navigate("logFlow");
+  }
+};
+const clearErrMessage = (dispatch: React.Dispatch<any>) => () => {
+  dispatch({ type: "CLEAR_ERROR_MESSAGE", payload: "" });
+};
+
 const signin =
-  (dispatch: React.Dispatch<any>) =>
+  (dispatch: React.Dispatch<IAction>) =>
   async ({ email, password }: { email: string; password: string }) => {
     try {
       const signinCall = await fetchTracker.post("/signin", {
@@ -34,11 +52,11 @@ const signin =
         password,
       });
       await AsyncStorage.setItem("token", signinCall.data.token);
-      dispatch({ type: "signin", payload: signinCall.data.token });
+      dispatch({ type: "AUTHENTICATION", payload: signinCall.data.token });
       navigate("TrackList");
     } catch (error) {
       console.log(error);
-      dispatch({ type: "add_err", payload: somethingWrong });
+      dispatch({ type: "ADD_ERROR", payload: somethingWrongSignIn });
     }
   };
 const signup =
@@ -50,11 +68,11 @@ const signup =
         password,
       });
       await AsyncStorage.setItem("token", signupCall.data.token);
-      dispatch({ type: "signin", payload: signupCall.data.token });
+      dispatch({ type: "AUTHENTICATION", payload: signupCall.data.token });
       navigate("TrackList");
     } catch (error) {
       console.log(error);
-      dispatch({ type: "add_err", payload: somethingWrong });
+      dispatch({ type: "ADD_ERROR", payload: somethingWrongSignUp });
     }
   };
 
@@ -64,6 +82,6 @@ const signout = (dispatch: React.Dispatch<any>) => {
 
 export const { Provider, Context } = CreateDataContext(
   authReducer,
-  { signin, signout, signup },
+  { signin, signout, signup, clearErrMessage, tryLocalSignIn },
   { token: null, errorMessage: "" }
 );

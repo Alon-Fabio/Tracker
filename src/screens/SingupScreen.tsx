@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
+import { NavigationEvents } from "react-navigation";
 // Prop for type script
 import NavLink from "../components/NavLink";
 //Type for TS
@@ -9,10 +10,11 @@ import { Context as AuthContext } from "../context/AuthContext";
 import AuthForm from "../components/AuthForm";
 
 const SingupScreen: NavigationStackScreenComponent = (): JSX.Element => {
-  const { state, signup } = useContext(AuthContext);
+  const { state, signup, clearErrMessage } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
+      <NavigationEvents onWillFocus={clearErrMessage} />
       <AuthForm
         authTitle={"Sign Up for Tracker"}
         formSubmitTitle={"Sign Up!"}
@@ -20,7 +22,7 @@ const SingupScreen: NavigationStackScreenComponent = (): JSX.Element => {
         onFormSubmit={signup}
       />
       <NavLink
-        linkText={"Already have an account?, SignIn here!"}
+        linkText={"Already have an account? SignIn here!"}
         routeName={"Signin"}
       />
     </View>

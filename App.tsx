@@ -9,6 +9,7 @@ import SingupScreen from "./src/screens/SingupScreen";
 import TrackCreateScreen from "./src/screens/TrackCreateScreen";
 import TrackDetailScreen from "./src/screens/TrackDetailScreen";
 import TrackListScreen from "./src/screens/TrackListScreen";
+import LoadingScreen from "./src/screens/LoadingScreen";
 import { setNavigator } from "./src/navigationRef";
 
 import { Provider as AuthProvider } from "./src/context/AuthContext";
@@ -19,6 +20,7 @@ interface TrackListFlow {
 }
 
 interface ISwitchNav {
+  LoadingScreen: undefined;
   logFlow: { Signin: undefined; Signup: undefined };
   mainFlow: {
     TrackListFlow: TrackListFlow;
@@ -28,6 +30,7 @@ interface ISwitchNav {
 }
 
 const switchNavigator = createSwitchNavigator({
+  LoadingScreen,
   logFlow: createStackNavigator({ Signup: SingupScreen, Signin: SigninScreen }),
   mainFlow: createBottomTabNavigator({
     TrackListFlow: createStackNavigator({
