@@ -13,6 +13,7 @@ import { IState, IAction } from "../typeScript/interfaces";
 import {
   somethingWrongSignUp,
   somethingWrongSignIn,
+  somethingWrong,
 } from "../messages/errMessages";
 
 import fetchTracker from "../api/tracker";
@@ -23,6 +24,8 @@ const authReducer = (state: IState, action: IAction): IState => {
       return { ...state, errorMessage: action.payload };
     case "AUTHENTICATION":
       return { token: action.payload, errorMessage: "" };
+    case "SIGN_OUT":
+      return { ...state, token: action.payload, errorMessage: "" };
     case "CLEAR_ERROR_MESSAGE":
       return { ...state, errorMessage: "" };
     default:
@@ -76,8 +79,14 @@ const signup =
     }
   };
 
-const signout = (dispatch: React.Dispatch<any>) => {
-  return () => {};
+const signout = (dispatch: React.Dispatch<any>) => async () => {
+  try {
+    await AsyncStorage.removeItem("token");
+    dispatch({ type: "SIGN_OUT", payload: null });
+    navigate("logFlow");
+  } catch (error) {
+    dispatch({ type: "ADD_ERROR", payload: somethingWrong });
+  }
 };
 
 export const { Provider, Context } = CreateDataContext(
