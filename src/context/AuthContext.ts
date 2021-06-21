@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CreateDataContext from "./CreateDataContext";
 
 //TypeScript interfaces
-import { IState, IAction } from "../typeScript/interfaces";
+import { IAuthState, IAction } from "../typeScript/interfaces";
 
 import {
   somethingWrongSignUp,
@@ -18,7 +18,7 @@ import {
 
 import fetchTracker from "../api/tracker";
 
-const authReducer = (state: IState, action: IAction): IState => {
+const authReducer = (state: IAuthState, action: IAction): IAuthState => {
   switch (action.type) {
     case "ADD_ERROR":
       return { ...state, errorMessage: action.payload };
