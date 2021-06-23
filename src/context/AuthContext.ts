@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import CreateDataContext from "./CreateDataContext";
 
 //TypeScript interfaces
-import { IAuthState, IAction } from "../typeScript/interfaces";
+import { IAuthState, IAuthAction } from "../typeScript/interfaces";
 
 import {
   somethingWrongSignUp,
@@ -18,7 +18,7 @@ import {
 
 import fetchTracker from "../api/tracker";
 
-const authReducer = (state: IAuthState, action: IAction): IAuthState => {
+const authReducer = (state: IAuthState, action: IAuthAction): IAuthState => {
   switch (action.type) {
     case "ADD_ERROR":
       return { ...state, errorMessage: action.payload };
@@ -33,7 +33,7 @@ const authReducer = (state: IAuthState, action: IAction): IAuthState => {
   }
 };
 
-const tryLocalSignIn = (dispatch: React.Dispatch<IAction>) => async () => {
+const tryLocalSignIn = (dispatch: React.Dispatch<IAuthAction>) => async () => {
   const token = await AsyncStorage.getItem("token");
   if (token) {
     dispatch({ type: "AUTHENTICATION", payload: token });
@@ -47,7 +47,7 @@ const clearErrMessage = (dispatch: React.Dispatch<any>) => () => {
 };
 
 const signin =
-  (dispatch: React.Dispatch<IAction>) =>
+  (dispatch: React.Dispatch<IAuthAction>) =>
   async ({ email, password }: { email: string; password: string }) => {
     try {
       const signinCall = await fetchTracker.post("/signin", {
@@ -63,7 +63,7 @@ const signin =
     }
   };
 const signup =
-  (dispatch: React.Dispatch<IAction>): {} =>
+  (dispatch: React.Dispatch<IAuthAction>): {} =>
   async ({ email, password }: { email: string; password: string }) => {
     try {
       const signupCall = await fetchTracker.post("/signup", {

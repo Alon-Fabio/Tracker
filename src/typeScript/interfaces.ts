@@ -8,7 +8,11 @@ export interface ILocationState {
   currentLocation: {};
 }
 
-export interface IAction {
-  type: string;
+export interface IAuthAction {
+  type: "SIGN_OUT" | "CLEAR_ERROR_MESSAGE" | "AUTHENTICATION" | "ADD_ERROR";
   payload: string;
+}
+export interface ILocationAction {
+  type: string;
+  payload: {} | [] | boolean;
 }

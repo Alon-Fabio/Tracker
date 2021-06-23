@@ -26,6 +26,8 @@ const TrackCreateScreen = () => {
   const startTracking = async () => {
     try {
       const { status } = await requestForegroundPermissionsAsync();
+      if (status === "denied")
+        throw new Error("Location permission not granted");
       await watchPositionAsync(
         {
           accuracy: Accuracy.BestForNavigation,
@@ -36,8 +38,6 @@ const TrackCreateScreen = () => {
           addLocation(location);
         }
       );
-      if (status === "denied")
-        throw new Error("Location permission not granted");
     } catch (error) {
       setErr(error);
     }

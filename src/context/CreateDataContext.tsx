@@ -1,22 +1,26 @@
 import React, { useReducer } from "react";
 
 //TypeScript interfaces
-import { IState, IAction } from "../typeScript/interfaces";
+import {
+  IAuthState,
+  IAuthAction,
+  ILocationAction,
+  ILocationState,
+} from "../typeScript/interfaces";
 
 interface IBundObj {
   [key: string]: Function;
 }
-
+type IState = IAuthState | ILocationState;
+type reducer =
+  | React.Reducer<IAuthState, IAuthAction>
+  | React.Reducer<ILocationState, ILocationAction>;
 interface IContext {
-  state: IState;
   [key: string]: any;
+  state: any; //If i use IState it will not read the Location state for some reason
 }
 
-export default (
-  reducer: React.Reducer<IState, IAction>,
-  actions: IBundObj,
-  initialState: IState
-) => {
+export default (reducer: reducer, actions: IBundObj, initialState: IState) => {
   const Context = React.createContext<IContext>({
     state: initialState,
   });
