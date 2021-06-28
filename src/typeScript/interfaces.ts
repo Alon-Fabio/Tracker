@@ -6,6 +6,7 @@ export interface ILocationState {
   recording: boolean;
   locations: Array<Number>;
   currentLocation: {};
+  trackName: string;
 }
 
 export interface IAuthAction {
@@ -14,5 +15,5 @@ export interface IAuthAction {
 }
 export interface ILocationAction {
   type: string;
-  payload: {} | [] | boolean;
+  payload: {} | [] | boolean | string;
 }
