@@ -14,6 +14,7 @@ import { setNavigator } from "./src/navigationRef";
 
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { Provider as LocationProvider } from "./src/context/LocationContext";
+import { Provider as TrackProvider } from "./src/context/TrackContext";
 
 interface TrackListFlow {
   TrackDetail: undefined;
@@ -47,17 +48,19 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
   return (
-    <LocationProvider>
-      <AuthProvider>
-        <App
-          ref={(navigator) => {
-            // Needed logic for TS
-            if (navigator !== null) {
-              setNavigator(navigator);
-            }
-          }}
-        />
-      </AuthProvider>
-    </LocationProvider>
+    <TrackProvider>
+      <LocationProvider>
+        <AuthProvider>
+          <App
+            ref={(navigator) => {
+              // TS demands it!
+              if (navigator !== null) {
+                setNavigator(navigator);
+              }
+            }}
+          />
+        </AuthProvider>
+      </LocationProvider>
+    </TrackProvider>
   );
 };

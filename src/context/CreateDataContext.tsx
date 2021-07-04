@@ -6,15 +6,18 @@ import {
   IAuthAction,
   ILocationAction,
   ILocationState,
+  ITrackAction,
+  ITrackState,
 } from "../typeScript/interfaces";
 
 interface IBundObj {
   [key: string]: Function;
 }
-type IState = IAuthState | ILocationState;
+type IState = IAuthState | ILocationState | ITrackState;
 type reducer =
   | React.Reducer<IAuthState, IAuthAction>
-  | React.Reducer<ILocationState, ILocationAction>;
+  | React.Reducer<ILocationState, ILocationAction>
+  | React.Reducer<ITrackState, ITrackAction>;
 interface IContext {
   [key: string]: any;
   state: any; //If i use IState it will not read the Location state for some reason

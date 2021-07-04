@@ -6,7 +6,7 @@ import { Context as LocationContext } from "../context/LocationContext";
 
 const Map = () => {
   const {
-    state: { currentLocation },
+    state: { currentLocation, locations },
   } = useContext(LocationContext);
 
   return currentLocation?.coords ? (
@@ -18,17 +18,14 @@ const Map = () => {
         longitudeDelta: 0.01,
       }}
     >
-      {/* <Polyline
-        coordinates={[
-          { latitude: 37.78825, longitude: -122.4324 },
-          { latitude: 37, longitude: -122 },
-        ]}
-      /> */}
       <Circle
         center={currentLocation.coords}
         radius={30}
         strokeColor="rgba(255, 150,150, 1.0)"
         fillColor="rgba(255, 150, 150, 0.3)"
+      />
+      <Polyline
+        coordinates={locations.map((loc: { coords: {} }) => loc.coords)}
       />
     </MapView>
   ) : (

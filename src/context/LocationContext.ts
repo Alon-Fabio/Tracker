@@ -22,7 +22,7 @@ const locationReducer = (
         return state;
       }
     case "ADD_LOCATION":
-      if (typeof action.payload === "number") {
+      if (typeof action.payload === "object") {
         return { ...state, locations: [...state.locations, action.payload] };
       } else {
         return state;
@@ -40,6 +40,7 @@ const locationReducer = (
 
 const changeName =
   (dispatch: React.Dispatch<ILocationAction>) => (name: string) => {
+    console.log(name);
     dispatch({ type: "ADD_NAME", payload: name });
   };
 const startRecording = (dispatch: React.Dispatch<ILocationAction>) => () => {

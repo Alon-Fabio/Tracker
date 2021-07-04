@@ -1,3 +1,5 @@
+//'?' is shorthand for writing a logic-gate ('if' statement)
+
 import { useEffect, useState } from "react";
 import {
   requestForegroundPermissionsAsync,
@@ -6,22 +8,33 @@ import {
   LocationCallback,
 } from "expo-location";
 
-type ISubscriber = {
-  remove: Function;
-};
-
 export default (shouldTrack: boolean, callBack: LocationCallback) => {
   const [err, setErr] = useState(null);
-  const [subscriber, setSubscriber] = useState<ISubscriber | null>({
-    remove: (): void => {},
-  });
 
+  let subscriber: { remove: Function } | null;
   useEffect(() => {
+    const startTracking = async () => {
+      try {
+        const { status } = await requestForegroundPermissionsAsync();
+        if (status === "denied")
+          throw new Error("Location permission not granted");
+        subscriber = await watchPositionAsync(
+          {
+            accuracy: Accuracy.BestForNavigation,
+            timeInterval: 1000,
+            distanceInterval: 10,
+          },
+          callBack //returns a location
+        );
+      } catch (error) {
+        setErr(error);
+      }
+    };
     if (shouldTrack) {
       startTracking();
     } else {
       subscriber?.remove();
-      setSubscriber(null);
+      subscriber = null;
     }
     return () => {
       if (subscriber) {
@@ -29,25 +42,6 @@ export default (shouldTrack: boolean, callBack: LocationCallback) => {
       }
     };
   }, [shouldTrack, callBack]);
-
-  const startTracking = async () => {
-    try {
-      const { status } = await requestForegroundPermissionsAsync();
-      if (status === "denied")
-        throw new Error("Location permission not granted");
-      const sub = await watchPositionAsync(
-        {
-          accuracy: Accuracy.BestForNavigation,
-          timeInterval: 1000,
-          distanceInterval: 10,
-        },
-        callBack //returns a location
-      );
-      setSubscriber(sub);
-    } catch (error) {
-      setErr(error);
-    }
-  };
 
   return [err];
 };
