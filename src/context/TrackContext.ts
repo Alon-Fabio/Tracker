@@ -1,11 +1,9 @@
 import CreateDataContext from "./CreateDataContext";
 import { ITrackAction, ITrackState } from "../typeScript/interfaces";
 
-import { ILocationAction } from "../typeScript/interfaces";
-const trackReducer = (
-  state: string[],
-  action: { type: string; payload: string }
-): string[] => {
+import trackerAPI from "../api/tracker";
+
+const trackReducer = (state: ITrackState, action: ITrackAction): string[] => {
   switch (action.type) {
     default:
       return state;
@@ -14,8 +12,8 @@ const trackReducer = (
 
 const createTrack =
   (dispatch: React.Dispatch<ITrackAction>) =>
-  (locations: Object[], name: string) => {
-    console.log("Locations:", locations.length, "Name:", name);
+  async (locations: Object[], name: string) => {
+    await trackerAPI.post("/tracks", { name, locations });
   };
 
 export const { Provider, Context } = CreateDataContext(

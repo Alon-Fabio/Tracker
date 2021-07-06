@@ -19,7 +19,8 @@ export interface ILocationAction {
     | "ADD_CURRENT_LOCATION"
     | "STOP_RECORDING"
     | "START_RECORDING"
-    | "ADD_NAME";
+    | "ADD_NAME"
+    | "RESET";
   payload: {} | [] | boolean | string;
 }
 export interface ITrackAction {

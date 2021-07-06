@@ -9,18 +9,19 @@ import Spacer from "../components/Spacer";
 const TrackForm = () => {
   const [saveTrack] = useSaveTrack();
   const {
-    state: { name, recording, locations },
+    state: { trackName, recording, locations },
     startRecording,
     stopRecording,
     changeName,
   } = useContext(LocationContext);
+
   return (
     <>
       <Spacer>
         <Input
-          placeholder={name || "Enter your track name"}
+          placeholder={trackName || "Enter your track name"}
           onChangeText={changeName}
-          value={name}
+          value={trackName}
         />
         {!recording ? (
           <Button onPress={startRecording} title="Start tracking" />
@@ -37,7 +38,9 @@ const TrackForm = () => {
           <Button
             title="Save track"
             buttonStyle={styles.save}
-            onPress={saveTrack}
+            onPress={() => {
+              saveTrack();
+            }}
           />
         </Spacer>
       ) : null}
