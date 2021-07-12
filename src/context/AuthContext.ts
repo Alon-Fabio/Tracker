@@ -42,7 +42,7 @@ const tryLocalSignIn = (dispatch: React.Dispatch<IAuthAction>) => async () => {
     navigate("logFlow");
   }
 };
-const clearErrMessage = (dispatch: React.Dispatch<any>) => () => {
+const clearErrMessage = (dispatch: React.Dispatch<IAuthAction>) => () => {
   dispatch({ type: "CLEAR_ERROR_MESSAGE", payload: "" });
 };
 
@@ -79,7 +79,7 @@ const signup =
     }
   };
 
-const signout = (dispatch: React.Dispatch<any>) => async () => {
+const signout = (dispatch: React.Dispatch<IAuthAction>) => async () => {
   try {
     await AsyncStorage.removeItem("token");
     dispatch({ type: "SIGN_OUT", payload: null });

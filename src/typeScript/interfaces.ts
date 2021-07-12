@@ -1,6 +1,6 @@
 export interface IAuthState {
   token: string | null;
-  errorMessage: string;
+  errorMessage: string | null;
 }
 export interface ILocationState {
   recording: boolean;
@@ -11,7 +11,7 @@ export interface ILocationState {
 
 export interface IAuthAction {
   type: "SIGN_OUT" | "CLEAR_ERROR_MESSAGE" | "AUTHENTICATION" | "ADD_ERROR";
-  payload: string;
+  payload: string | null;
 }
 export interface ILocationAction {
   type:

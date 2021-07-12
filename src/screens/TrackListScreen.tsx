@@ -1,20 +1,48 @@
-import React from "react";
+import React, { useContext } from "react";
+import {
+  StyleSheet,
+  Text,
+  Button,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
+import { ListItem } from "react-native-elements";
 // Prop for type script
 import { StackNavigationProp } from "@react-navigation/stack";
-
-import { StyleSheet, Text, Button } from "react-native";
+import { NavigationEvents } from "react-navigation";
+import { Context as TrackContext } from "../context/TrackContext";
 
 interface INav {
-  navigation: StackNavigationProp<{ TrackDetail: undefined }>;
+  navigation: StackNavigationProp<{ TrackDetail: { _id: string } }>;
 }
 
 const TrackListScreen = ({ navigation }: INav) => {
+  const { state, fetchTrack } = useContext(TrackContext);
+
+  console.log(state);
   return (
     <>
-      <Text style={styles.fontSize}>Track List Screen</Text>
-      <Button
-        title={"Go to Track Detail"}
-        onPress={() => navigation.navigate("TrackDetail")}
+      <NavigationEvents onWillFocus={fetchTrack} />
+      <Text style={styles.fontSize}>Track List</Text>
+      <FlatList
+        data={state}
+        keyExtractor={(item) => item._id}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("TrackDetail", { _id: item._id });
+              }}
+            >
+              <ListItem>
+                <ListItem.Content>
+                  <ListItem.Title>{item.name}</ListItem.Title>
+                </ListItem.Content>
+                <ListItem.Chevron />
+              </ListItem>
+            </TouchableOpacity>
+          );
+        }}
       />
     </>
   );
