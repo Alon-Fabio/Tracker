@@ -6,6 +6,8 @@ import React, { useCallback, useContext } from "react";
 import { Text } from "react-native-elements";
 import { StyleSheet } from "react-native";
 
+import { FontAwesome as PlusIcon } from "@expo/vector-icons";
+
 import { Context as LocationContext } from "../context/LocationContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { withNavigationFocus } from "react-navigation";
@@ -15,7 +17,16 @@ import useLocation from "../hooks/useLocation";
 import TrackForm from "../components/TrackForm";
 import Spacer from "../components/Spacer";
 
-const TrackCreateScreen: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
+// Prop for type script
+import { NavigationStackProp } from "react-navigation-stack";
+interface INav {
+  navigation: NavigationStackProp<{
+    TrackDetail: {}; //Props passed in the nav obj, can be omitted if not used
+  }>;
+  isFocused: boolean;
+}
+
+const TrackCreateScreen = ({ isFocused }: INav) => {
   const {
     state: { recording },
     addLocation,
@@ -34,6 +45,11 @@ const TrackCreateScreen: React.FC<{ isFocused: boolean }> = ({ isFocused }) => {
       <TrackForm />
     </SafeAreaView>
   );
+};
+
+TrackCreateScreen.navigationOptions = {
+  title: "Add track",
+  tabBarIcon: <PlusIcon name="plus" size={24} color="green" />,
 };
 
 export default withNavigationFocus(TrackCreateScreen);

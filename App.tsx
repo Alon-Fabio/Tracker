@@ -1,5 +1,8 @@
 import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
+
+import { FontAwesome5 as TracksIcon } from "@expo/vector-icons";
+
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
@@ -16,29 +19,28 @@ import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { Provider as LocationProvider } from "./src/context/LocationContext";
 import { Provider as TrackProvider } from "./src/context/TrackContext";
 
-interface TrackListFlow {
-  TrackDetail: undefined;
-  TrackList: undefined;
-}
+const TrackListFlow = createStackNavigator({
+  TrackList: TrackListScreen,
+  TrackDetail: TrackDetailScreen,
+});
 
-interface ISwitchNav {
-  LoadingScreen: undefined;
-  logFlow: { Signin: undefined; Signup: undefined };
-  mainFlow: {
-    TrackListFlow: TrackListFlow;
-    TrackCreate: undefined;
-    Account: undefined;
-  };
-}
-
+TrackListFlow.navigationOptions = {
+  title: "Tracks",
+  tabBarIcon: <TracksIcon name="map-signs" size={24} color="gray" />,
+  tabBarOptions: {
+    activeBackgroundColor: "lightgray",
+    activeTintColor: "blue",
+    allowFontScaling: true,
+    labelStyle: {
+      fontWeight: "700",
+    },
+  },
+};
 const switchNavigator = createSwitchNavigator({
   LoadingScreen,
   logFlow: createStackNavigator({ Signup: SingupScreen, Signin: SigninScreen }),
   mainFlow: createBottomTabNavigator({
-    TrackListFlow: createStackNavigator({
-      TrackList: TrackListScreen,
-      TrackDetail: TrackDetailScreen,
-    }),
+    TrackListFlow,
     TrackCreate: TrackCreateScreen,
     Account: AccountScreen,
   }),

@@ -4,7 +4,10 @@ import { ITrackAction, ITrackState } from "../typeScript/interfaces";
 import trackerAPI from "../api/tracker";
 import React from "react";
 
-const trackReducer = (state: ITrackState, action: ITrackAction): string[] => {
+const trackReducer = (
+  state: ITrackState,
+  action: ITrackAction
+): ITrackState => {
   switch (action.type) {
     case "GET_TRACKS":
       return [...action.payload];
@@ -15,13 +18,12 @@ const trackReducer = (state: ITrackState, action: ITrackAction): string[] => {
 
 const fetchTrack = (dispatch: React.Dispatch<ITrackAction>) => async () => {
   const response = await trackerAPI.get("/tracks");
-  // console.log("API data: ", response.data);
   dispatch({ type: "GET_TRACKS", payload: response.data });
 };
 
 const createTrack =
   (dispatch: React.Dispatch<ITrackAction>) =>
-  async (locations: Object[], name: string) => {
+  async (locations: ITrackState, name: string) => {
     await trackerAPI.post("/tracks", { name, locations });
   };
 

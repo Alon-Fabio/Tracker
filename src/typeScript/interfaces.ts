@@ -25,6 +25,27 @@ export interface ILocationAction {
 }
 export interface ITrackAction {
   type: string;
-  payload: string;
+  payload: ITrackState;
 }
-export type ITrackState = string[];
+
+interface IUsersLocations {
+  __v: Number;
+  _id: String;
+  locations: Array<ILocation>;
+  home: String;
+  userId: String;
+}
+export type ITrackState = Array<IUsersLocations>;
+
+export interface ILocation {
+  _id: Number;
+  coords: {
+    accuracy: Number;
+    altitude: Number;
+    heading: Number;
+    latitude: Number;
+    longitude: Number;
+    speed: Number;
+  };
+  timestamp: Number;
+}

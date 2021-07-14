@@ -3,6 +3,8 @@ import { StyleSheet, Text } from "react-native";
 import { Button } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { MaterialCommunityIcons as AccountIcon } from "@expo/vector-icons";
+
 import { Context as AuthContext } from "../context/AuthContext";
 
 import Spacer from "../components/Spacer";
@@ -17,6 +19,11 @@ const AccountScreen = () => {
       </Spacer>
     </SafeAreaView>
   );
+};
+
+AccountScreen.navigationOptions = {
+  title: "Account",
+  tabBarIcon: <AccountIcon name="account-cog" size={24} color="blue" />,
 };
 
 const styles = StyleSheet.create({

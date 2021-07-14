@@ -1,29 +1,21 @@
 import React, { useContext } from "react";
-import {
-  StyleSheet,
-  Text,
-  Button,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { ListItem } from "react-native-elements";
 // Prop for type script
-import { StackNavigationProp } from "@react-navigation/stack";
+import { NavigationStackProp } from "react-navigation-stack";
+
 import { NavigationEvents } from "react-navigation";
 import { Context as TrackContext } from "../context/TrackContext";
 
 interface INav {
-  navigation: StackNavigationProp<{ TrackDetail: { _id: string } }>;
+  navigation: NavigationStackProp;
 }
 
 const TrackListScreen = ({ navigation }: INav) => {
   const { state, fetchTrack } = useContext(TrackContext);
-
-  console.log(state);
   return (
     <>
       <NavigationEvents onWillFocus={fetchTrack} />
-      <Text style={styles.fontSize}>Track List</Text>
       <FlatList
         data={state}
         keyExtractor={(item) => item._id}
@@ -48,10 +40,14 @@ const TrackListScreen = ({ navigation }: INav) => {
   );
 };
 
+TrackListScreen.navigationOptions = {
+  title: "Tracks",
+  headerTitleStyle: {
+    textAlign: "center" as "center",
+    flex: 1,
+  },
+};
+
 export default TrackListScreen;
 
-const styles = StyleSheet.create({
-  fontSize: {
-    fontSize: 48,
-  },
-});
+const styles = StyleSheet.create({});
